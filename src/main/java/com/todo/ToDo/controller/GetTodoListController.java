@@ -5,6 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todo.ToDo.model.response.BaseResponse;
+import com.todo.ToDo.model.response.EmployeeDetails;
+import com.todo.ToDo.repository.EmployeeRepo;
+import com.todo.ToDo.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +30,34 @@ public class GetTodoListController {
     @Autowired
     ObjectMapper objectMapper;
 
-
-
+    @Autowired
+    EmployeeService employeeService;
 
 
     @GetMapping(value = "/v1/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getTodoListController() throws JsonProcessingException {
 
-        BaseResponse baseResponse=new BaseResponse();
+        BaseResponse baseResponse = new BaseResponse();
+
+
+
+        return ResponseEntity.ok().body(objectMapper.writeValueAsString(baseResponse));
+    }
+    @PostMapping(value = "/v1/insert", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> insertTodoList(@RequestBody EmployeeDetails employeeDetails) throws JsonProcessingException {
+
+        BaseResponse baseResponse = new BaseResponse();
+        if (employeeService.saveOrUpdate(employeeDetails)) {
+            baseResponse.setApiName("Employee Insert");
+            baseResponse.setStatus(true);
+            baseResponse.setData("Data added successfully");
+        } else {
+            baseResponse.setApiName("Employee Insert");
+            baseResponse.setStatus(false);
+            baseResponse.setData("Data not added");
+        }
+
+
         return ResponseEntity.ok().body(objectMapper.writeValueAsString(baseResponse));
     }
 }
