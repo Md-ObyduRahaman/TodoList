@@ -3,6 +3,8 @@ package com.todo.ToDo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todo.ToDo.model.response.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class GetTodoListController {
 
     @Autowired
     Environment environment;
+    @Autowired
+    ObjectMapper objectMapper;
+
 
 
 
@@ -29,7 +34,7 @@ public class GetTodoListController {
     @GetMapping(value = "/v1/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getTodoListController() throws JsonProcessingException {
 
-        return null;
-
+        BaseResponse baseResponse=new BaseResponse();
+        return ResponseEntity.ok().body(objectMapper.writeValueAsString(baseResponse));
     }
 }
