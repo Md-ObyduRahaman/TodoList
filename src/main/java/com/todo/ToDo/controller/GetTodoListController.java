@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,6 +39,17 @@ public class GetTodoListController {
     public ResponseEntity<String> getTodoListController() throws JsonProcessingException {
 
         BaseResponse baseResponse = new BaseResponse();
+        List<EmployeeDetails> employeeDetails= employeeService.getAllBooks();
+
+        if (!employeeDetails.isEmpty()) {
+            baseResponse.setApiName("Employee Insert");
+            baseResponse.setStatus(true);
+            baseResponse.setData(employeeDetails);
+        } else {
+            baseResponse.setApiName("Employee Insert");
+            baseResponse.setStatus(false);
+            baseResponse.setData("Data not added");
+        }
 
 
 

@@ -12,12 +12,22 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
     @Autowired
     EmployeeRepo employeeRepo;
     private final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
+
+    public List<EmployeeDetails> getAllBooks()
+    {
+        List<EmployeeDetails> employeeDetails = new ArrayList<EmployeeDetails>();
+        employeeRepo.findAll().forEach(employeeDetails1 -> employeeDetails.add(employeeDetails1));
+        return employeeDetails;
+    }
 
 
     public boolean saveOrUpdate(EmployeeDetails employeeDetails) {
