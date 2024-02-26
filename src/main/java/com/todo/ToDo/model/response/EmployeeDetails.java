@@ -1,12 +1,19 @@
 package com.todo.ToDo.model.response;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "Employee")
+@Table(name = "EmployeeDetails")
 public class EmployeeDetails {
 
     @Id
@@ -22,4 +29,10 @@ public class EmployeeDetails {
 
     @Column(name = "email")
     private String email;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employeeDetails")
+    @JsonManagedReference
+    private List<TaskModel> taskModelList;
+
+
 }
